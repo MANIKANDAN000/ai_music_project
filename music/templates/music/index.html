@@ -1,0 +1,66 @@
+{% extends "music/base.html" %}
+{% load static %}
+
+{% block title %}{{ page_title|default:"AI Music Home" }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-6 mb-4">
+        <h2>Generate New Music</h2>
+        <form method="post" action="{% url 'music:generate_music' %}">
+            {% csrf_token %}
+            {{ generation_form.as_p }}
+            <button type="submit" class="btn btn-primary mt-2">Generate Music</button>
+        </form>
+        <hr>
+        <h3>Recent Generations</h3>
+        {% if ai_logs %}
+            <ul class="list-group">
+                {% for log in ai_logs %}
+                    <li class="list-group-item">
+                        <a href="{% url 'music:generation_result' log.id %}">Prompt: "{{ log.prompt_text|truncatewords:10 }}"</a>
+                        <br>
+                        <small>Status: {{ log.get_status_display }} ({{ log.created_at|date:"Y-m-d H:i" }})</small>
+                        {% if log.generated_song %}
+                            <br>
+                            <small>Generated: <a href="{% url 'music:song_detail' log.generated_song.id %}">{{ log.generated_song.title }}</a></small>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No AI generation attempts yet.</p>
+        {% endif %}
+    </div>
+
+    <div class="col-md-6 mb-4">
+        <h2>Recently Uploaded Songs</h2>
+        {% if songs %}
+            <ul class="list-group">
+                {% for song in songs %}
+                    <li class="list-group-item">
+                        <a href="{% url 'music:song_detail' song.id %}">{{ song.title }}</a>
+                        {% if song.artist %}- {{ song.artist }}{% endif %}
+                        <br>
+                        <small class="text-muted">Genre: {{ song.genre|default:"N/A" }} | Uploaded: {{ song.uploaded_at|date:"Y-m-d" }}</small>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No songs uploaded yet.</p>
+        {% endif %}
+        <hr>
+        <h3>Upload Your Song</h3>
+         <p><a href="{% url 'music:upload_song' %}" class="btn btn-secondary mt-2">Upload a Song</a></p>
+        {# Uncomment this section if you want the upload form directly on the index page #}
+        {#
+        <h4>Or Upload Directly:</h4>
+        <form method="post" action="{% url 'music:upload_song' %}" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ upload_form.as_p }}
+            <button type="submit" class="btn btn-success mt-2">Upload</button>
+        </form>
+        #}
+    </div>
+</div>
+{% endblock %}

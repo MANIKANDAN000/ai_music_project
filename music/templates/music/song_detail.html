@@ -1,0 +1,31 @@
+{% extends "music/base.html" %}
+{% load static %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>{{ song.title }}</h2>
+    {% if song.artist %}<p class="lead">By: {{ song.artist }}</p>{% endif %}
+    
+    <div class="card">
+        <div class="card-body">
+            <p><strong>Genre:</strong> {{ song.genre|default:"N/A" }}</p>
+            <p><strong>Uploaded:</strong> {{ song.uploaded_at }}</p>
+            
+            {% if song.audio_file %}
+                <h5>Listen:</h5>
+                <audio controls src="{{ song.audio_file.url }}">
+                    Your browser does not support the audio element.
+                </audio>
+            {% else %}
+                <p class="text-muted">No audio file available for this song.</p>
+            {% endif %}
+        </div>
+        <div class="card-footer">
+             <a href="{% url 'music:index' %}" class="btn btn-secondary">Back to List</a>
+             <a href="{% url 'music:analyze_song' song.id %}" class="btn btn-info">Analyze Song (Simulated)</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

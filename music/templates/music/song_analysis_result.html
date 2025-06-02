@@ -1,0 +1,26 @@
+{% extends "music/base.html" %}
+{% load static %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Analysis for: {{ song.title }}</h2>
+    
+    {% if analysis %}
+        <div class="alert alert-success">
+            <h4 class="alert-heading">Analysis Complete (Simulated)</h4>
+            <p><strong>Detected Genre:</strong> {{ analysis.detected_genre }}</p>
+            <p><strong>Estimated BPM:</strong> {{ analysis.estimated_bpm }}</p>
+        </div>
+    {% else %}
+        <div class="alert alert-warning">
+            <h4 class="alert-heading">Analysis Information</h4>
+            <p>{{ analysis_message|default:"Analysis could not be performed or data is unavailable." }}</p>
+        </div>
+    {% endif %}
+
+    <a href="{% url 'music:song_detail' song.id %}" class="btn btn-primary">Back to Song Details</a>
+    <a href="{% url 'music:index' %}" class="btn btn-secondary">Back to Home</a>
+</div>
+{% endblock %}

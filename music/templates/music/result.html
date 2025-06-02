@@ -1,0 +1,77 @@
+{% extends "music/base.html" %}
+{% load static %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Generation Process Details</h1>
+    
+    <div class="card">
+        <div class="card-header">
+            Log ID: {{ log_entry.id }}
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">Prompt:</h5>
+            <p class="card-text"><em>"{{ log_entry.prompt_text }}"</em></p>
+            
+            <p><strong>Status:</strong> 
+                <span class="badge 
+                    {% if log_entry.status == 'COMPLETED' %}bg-success
+                    {% elif log_entry.status == 'FAILED' %}bg-danger
+                    {% elif log_entry.status == 'PROCESSING' %}bg-info
+                    {% else %}bg-secondary{% endif %}">
+                    {{ log_entry.get_status_display }}
+                </span>
+            </p>
+            
+            <p><strong>Created At:</strong> {{ log_entry.created_at }}</p>
+
+            {% if log_entry.status == 'COMPLETED' %}
+                {% if log_entry.generated_song %}
+                    <p><strong>Generated Song:</strong> 
+                        <a href="{% url 'music:song_detail' log_entry.generated_song.id %}">
+                            {{ log_entry.generated_song.title }}
+                        </a>
+                    </p>
+                    <p>The AI model (simulated) has finished processing your request and a song entry was created.</p>
+                    {% if log_entry.generated_song.audio_file %}
+                         <audio controls src="{{ log_entry.generated_song.audio_file.url }}" class="mt-2">
+                             Your browser does not support the audio element.
+                         </audio>
+                    {% else %}
+                        <p class="text-warning">Note: The generated song entry does not have an audio file attached in this simulation.</p>
+                    {% endif %}
+                {% else %}
+                     <p class="text-info">The AI model (simulated) has finished processing, but no specific song file was linked in this placeholder example.</p>
+                {% endif %}
+            {% elif log_entry.status == 'FAILED' %}
+                <p class="text-danger">Unfortunately, the AI model (simulated) failed to generate music for this prompt.</p>
+                {% if log_entry.error_message %} {# Assuming you add an error_message field to AIModelLog #}
+                    <p><strong>Error:</strong> {{ log_entry.error_message }}</p>
+                {% endif %}
+            {% elif log_entry.status == 'PROCESSING' or log_entry.status == 'PENDING' %}
+                <p class="text-info">The AI model is currently processing your request. This page does not auto-refresh. Please check back or refresh manually.</p>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%"></div>
+                </div>
+            {% endif %}
+        </div>
+        <div class="card-footer">
+             <a href="{% url 'music:index' %}" class="btn btn-primary">Back to Home</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{% if log_entry.status == 'PROCESSING' or log_entry.status == 'PENDING' %}
+<script>
+    // Simple auto-refresh for demonstration if status is pending/processing
+    // In a real app, use WebSockets or more sophisticated polling.
+    // setTimeout(function(){
+    //    window.location.reload(1);
+    // }, 5000); // Refresh every 5 seconds
+</script>
+{% endif %}
+{% endblock %}

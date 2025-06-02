@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dark Gradient Animated Design</title>
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #8a2be2;
+            --secondary-color: #9370db;
+            --accent-color: #ff69b4;
+            --dark-color: #121212;
+            --darker-color: #0a0a0a;
+            --light-color: #f8f9fa;
+            --text-color: #e0e0e0;
+            --text-muted: #b0b0b0;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+            overflow-x: hidden;
+            background-color: var(--darker-color);
+        }
+        
+        /* Advanced Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+        }
+        
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            width: 300%;
+            height: 300%;
+            top: -100%;
+            left: -100%;
+            background: 
+                radial-gradient(circle at 75% 25%, rgba(138, 43, 226, 0.15) 0%, transparent 25%),
+                radial-gradient(circle at 25% 75%, rgba(255, 105, 180, 0.15) 0%, transparent 25%),
+                linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            background-size: 200% 200%;
+            animation: gradientBG 20s ease infinite, pulseRadial 30s ease infinite alternate;
+            opacity: 1;
+        }
+        
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 0%;
+                transform: rotate(0deg);
+            }
+            50% {
+                background-position: 100% 100%;
+            }
+            100% {
+                background-position: 0% 0%;
+                transform: rotate(360deg);
+            }
+        }
+        
+        @keyframes pulseRadial {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1.2);
+            }
+        }
+        
+        /* Particle Animation */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            filter: blur(1px);
+            animation: floatParticle linear infinite;
+        }
+        
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-20vh) scale(1);
+                opacity: 0;
+            }
+        }
+        
+        /* Glowing Border Effect */
+        .glow-border {
+            position: relative;
+            z-index: 0;
+        }
+        
+        .glow-border::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            z-index: -1;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color), var(--primary-color));
+            background-size: 200% 200%;
+            border-radius: inherit;
+            animation: glowingBorder 3s ease infinite;
+            opacity: 0.7;
+            filter: blur(5px);
+        }
+        
+        @keyframes glowingBorder {
+            0% {
+                background-position: 0% 50%;
+                opacity: 0.5;
+            }
+            50% {
+                background-position: 100% 50%;
+                opacity: 0.8;
+            }
+            100% {
+                background-position: 0% 50%;
+                opacity: 0.5;
+            }
+        }
+        
+        /* Main Content */
+        .main-content {
+            background-color: rgba(26, 26, 46, 0.85);
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            margin: 2rem auto;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(138, 43, 226, 0.1);
+        }
+        
+        .main-content:hover {
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            transform: translateY(-5px);
+            border-color: rgba(138, 43, 226, 0.3);
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: var(--light-color);
+        }
+        
+        p, label {
+            color: var(--text-color);
+        }
+        
+        .text-muted {
+            color: var(--text-muted) !important;
+        }
+        
+        /* Audio Player Customization */
+        audio {
+            width: 100%;
+            margin-top: 10px;
+            border-radius: 50px;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            background-color: rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        audio:hover {
+            box-shadow: 0 8px 25px rgba(138, 43, 226, 0.4);
+        }
+        
+        /* Form Styling */
+        .form-container {
+            background: rgba(26, 26, 46, 0.7);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(138, 43, 226, 0.1);
+        }
+        
+        .form-control, .form-select, .form-control:focus, .form-select:focus {
+            background-color: rgba(0, 0, 0, 0.3);
+            border: none;
+            border-bottom: 2px solid var(--secondary-color);
+            border-radius: 0;
+            padding-left: 0;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            box-shadow: none;
+            border-bottom-color: var(--accent-color);
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .main-content {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Advanced Animated Background -->
+    <div class="bg-animation"></div>
+    
+    <!-- Particle Animation -->
+    <div class="particles" id="particles"></div>
+    
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="main-content glow-border">
+                    <div class="text-center mb-5">
+                        <div class="icon-box mx-auto" style="background: linear-gradient(135deg, var(--primary-color), var(--accent-color));">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        <h1 class="display-4 mb-3">Premium Audio Experience</h1>
+                        <p class="lead text-muted">Immerse yourself in high-fidelity sound</p>
+                    </div>
+                    
+                    <!-- Audio Player Example -->
+                    <div class="mb-5">
+                        <h3 class="mb-4"><i class="fas fa-headphones me-2"></i> Now Playing</h3>
+                        <audio controls>
+                            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                    
+                    <!-- Form Example -->
+                    <div class="form-container mb-5">
+                        <h3 class="mb-4"><i class="fas fa-upload me-2"></i> Upload Your Content</h3>
+                        <form>
+                            <div class="mb-3">
+                                <label class="form-label">Title</label>
+                                <input type="text" class="form-control" placeholder="Enter track title">
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Audio File</label>
+                                <input type="file" class="form-control">
+                                <small class="text-muted">Supported formats: MP3, WAV, AAC</small>
+                            </div>
+                            <button type="submit" class="btn btn-primary mt-3">
+                                <i class="fas fa-cloud-upload-alt me-2"></i> Upload Track
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS for animations -->
+    <script>
+        // Create particles dynamically
+        document.addEventListener('DOMContentLoaded', function() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random properties
+                const size = Math.random() * 5 + 1;
+                const posX = Math.random() * 100;
+                const duration = Math.random() * 20 + 10;
+                const delay = Math.random() * 20;
+                const opacity = Math.random() * 0.5 + 0.1;
+                
+                // Apply properties
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${delay}s`;
+                particle.style.opacity = opacity;
+                
+                // Random color (purple/pink shades)
+                const hue = Math.random() * 30 + 270; // Between 270-300 (purple/pink)
+                particle.style.background = `hsla(${hue}, 80%, 70%, ${opacity})`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        });
+    </script>
+</body>
+</html>
